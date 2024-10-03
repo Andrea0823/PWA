@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#2F3BA2">
+  <link rel="manifest" href="/manifest/manifest.json">
+  <link rel="stylesheet" href="/css/styles.css">
+  <title>PWA App Shell</title>
+</head>
+<body>
+  <header>
+    <h1>Mi PWA</h1>
+  </header>
+
+  <main id="content">
+    <p>Cargando contenido...</p>
+  </main>
+
+  <footer>
+    <p>&copy; 2024 Mi PWA</p>
+  </footer>
+
+  <script src="/js/app.js"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/service-worker/sw.js')
+      .then(function(registration) {
+        console.log('Service Worker registrado con éxito:', registration);
+      })
+      .catch(function(error) {
+        console.log('Registro de Service Worker fallido:', error);
+      });
+    }
+  </script>
+</body>
+</html>
