@@ -1,43 +1,27 @@
-const apiURL = 'https://pokeapi.co/api/v2/pokemon/bulbasaur'; // Puedes cambiar "pikachu" por cualquier otro nombre o ID de Pokémon
+// Obtener elementos del DOM
+const loadPokemonButton = document.getElementById('load-pokemon-button');
+const pokemonList = document.getElementById('pokemon-list');
 
-// Función para obtener datos de la API
-async function fetchDataFromAPI() {
-  try {
-    const response = await fetch(apiURL);
+// Función para cargar Pokémon desde la PokéAPI
+async function loadPokemon() {
+    const response = await fetch('https://pokeapi.co/api/v2/pokemon?limit=20');
     const data = await response.json();
+    
+    // Limpiar la lista antes de agregar nuevos Pokémon
+    pokemonList.innerHTML = '';
 
-    // Guarda los datos en LocalStorage
-    localStorage.setItem('pokemon', JSON.stringify(data));
-
-    // Muestra los datos en la UI
-    displayPokemon(data);
-  } catch (error) {
-    console.error('Error al obtener datos de la API:', error);
-
-    // Si hay un error, intenta cargar datos desde el cache (LocalStorage)
-    const cachedData = localStorage.getItem('pokemon');
-    if (cachedData) {
-      console.log('Cargando datos desde LocalStorage...');
-      displayPokemon(JSON.parse(cachedData));
-    }
-  }
+    // Agregar cada Pokémon a la lista
+    data.results.forEach(pokemon => {
+        addPokemonToDOM(pokemon);
+    });
 }
 
-// Función para mostrar el Pokémon en la página
-function displayPokemon(pokemon) {
-  const contentDiv = document.getElementById('content');
-  contentDiv.innerHTML = ''; // Limpiar contenido previo
-
-  const pokemonElement = document.createElement('div');
-  pokemonElement.innerHTML = `
-    <h3>${pokemon.name.toUpperCase()}</h3>
-    <img src="${pokemon.sprites.front_default}" alt="${pokemon.name}">
-    <p>Altura: ${pokemon.height}</p>
-    <p>Peso: ${pokemon.weight}</p>
-    <p>Tipo: ${pokemon.types.map(typeInfo => typeInfo.type.name).join(', ')}</p>
-  `;
-  contentDiv.appendChild(pokemonElement);
+// Agregar Pokémon al DOM
+function addPokemonToDOM(pokemon) {
+    const li = document.createElement('li');
+    li.textContent = pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1);
+    pokemonList.appendChild(li);
 }
 
-// Llamar a la función para obtener y mostrar los datos
-fetchDataFromAPI();
+// Manejar el evento de cargar Pokémon
+loadPokemonButton.addEventListener('click', loadPokemon);

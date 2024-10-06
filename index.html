@@ -1,37 +1,41 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#2F3BA2">
-  <link rel="manifest" href="/manifest/manifest.json">
-  <link rel="stylesheet" href="/css/styles.css">
-  <title>PWA - Pokémon</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pokémon - PWA</title>
+    <link rel="manifest" href="manifest/manifest.json"> <!-- Asegúrate de que la ruta sea correcta -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css"> <!-- Verifica la ruta -->
 </head>
 <body>
-  <header>
-    <h1>PokéAPI PWA</h1>
-  </header>
+    <header>
+        <h1>Pokémon</h1>
+    </header>
+    
+    <main>
+        <button id="load-pokemon-button">Cargar Pokémon</button>
+        <ul id="pokemon-list"></ul>
+    </main>
 
-  <main id="content">
-    <p>Cargando datos del Pokémon...</p>
-  </main>
+    <footer>
+        <p>&copy; 2024 Pokémon PWA</p>
+    </footer>
 
-  <footer>
-    <p>&copy; 2024 PWA Pokémon</p>
-  </footer>
-
-  <script src="/js/app.js"></script>
-  <script>
-    if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('/service-worker/sw.js')
-        .then((registration) => {
-        console.log('Service Worker registrado:', registration);
-        })
-        .catch((error) => {
-        console.error('Error al registrar el Service Worker:', error);
-        });
-    }
-  </script>
+    <script src="js/app.js"></script>
+    <script>
+        // Registrando el Service Worker
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js') // Asegúrate de que la ruta sea correcta
+                    .then(registration => {
+                        console.log('Service Worker registrado con éxito:', registration.scope);
+                    })
+                    .catch(error => {
+                        console.log('Error al registrar el Service Worker:', error);
+                    });
+            });
+        }
+    </script>
 </body>
 </html>
